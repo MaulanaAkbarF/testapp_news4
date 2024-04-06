@@ -8,6 +8,7 @@ import '../../Utilities/Components/AllSettingsMenu/AllSettingsMenu_View.dart';
 import '../../Services/SharedPreferences/Data_Users.dart';
 import '../../Utilities/Components/Language/UserLanguages.dart';
 import '../Dashboard/Dashboard_View.dart';
+import '../Trends/Trends_View.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final DataUsers dataUsers;
@@ -149,6 +150,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   List<Widget> _getPages() {
     return [
       const Dashboard(),
+      const Trends(),
     ];
   }
 }

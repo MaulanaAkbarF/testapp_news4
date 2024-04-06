@@ -1,14 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:intl/intl.dart';
 
-class DashboardController{
+class TrendsController{
   static String? languageId;
   late String todayDate;
   String imagePathField = 'urlToImage';
   String titleField = 'title';
   String descField = 'author';
 
-  DashboardController() {
+  TrendsController() {
     getTodayDate();
   }
 

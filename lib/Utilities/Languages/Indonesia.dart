@@ -4,11 +4,6 @@ class Indonesia_UIText {
   // Utilities Text
   static List<Map<String, String>> DrawerPageText = [
     {
-      'ServerLabel': 'Server',
-      'MachineLabel': 'Deteksi',
-      'ResponseLabel': 'Respon',
-      'Response': '4 dtk/secs',
-      'StopSprinklingButton': 'Hentikan Penyiraman',
       'BackToSplashScreenButton': 'Kembali ke Splash Screen',
       'CloseDrawerButton': 'Tutup Drawer',
     },
@@ -183,9 +178,8 @@ class Indonesia_UIText {
   ];
   static List<Map<String, String>> DashboardPageText = [
     {
-      'Header': 'INFORMASI KEBUN',
-      'DateLabel': 'Rabu, 06 Februari 2024',
       'Title': 'TOP HEADLINES',
+      'Title2': 'GLOBAL TRENDS',
 
       'HeaderWarning1': 'Keluar dari Aplikasi?',
       'DescriptionWarning1': 'Tekan "Keluar" untuk menutup aplikasi',

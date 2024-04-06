@@ -600,30 +600,31 @@ class LongListViewBuilderRetrofitState extends State<LongListViewBuilderRetrofit
   void initState() {
     super.initState();
     widget.futureSnapshot!().then((articles) {
-      for (var i = 0; i < articles.length; i++) {
-        _controllers.add(AnimationController(
-          vsync: this,
-          duration: const Duration(milliseconds: 500),
-        ));
+      if (articles.isNotEmpty) { // Periksa apakah articles tidak kosong
+        for (var i = 0; i < articles.length; i++) {
+          _controllers.add(AnimationController(
+            vsync: this,
+            duration: const Duration(milliseconds: 500),
+          ));
 
-        _opacityAnimations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
-          CurvedAnimation(
-            parent: _controllers[i],
-            curve: Curves.easeInOut,
-          ),
-        ));
+          _opacityAnimations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+              parent: _controllers[i],
+              curve: Curves.easeInOut,
+            ),
+          ));
 
-        _translationAnimations.add(Tween<double>(begin: -50.0, end: 0.0).animate(
-          CurvedAnimation(
-            parent: _controllers[i],
-            curve: Curves.easeInOut,
-          ),
-        ));
+          _translationAnimations.add(Tween<double>(begin: -50.0, end: 0.0).animate(
+            CurvedAnimation(
+              parent: _controllers[i],
+              curve: Curves.easeInOut,
+            ),
+          ));
+        }
       }
-      setState(() {});  // Memperbarui state untuk memicu pembangunan ulang widget
+      setState(() {});
     });
   }
-
 
   @override
   Widget build(BuildContext context) {

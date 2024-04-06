@@ -13,34 +13,36 @@ import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'
     as obx_int; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart' as obx;
+import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
+
 import 'ObjectBox_Model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 1053017952725093594),
+      id: const obx_int.IdUid(1, 995459422726009675),
       name: 'Article',
-      lastPropertyId: const obx_int.IdUid(4, 7518127641279759595),
+      lastPropertyId: const obx_int.IdUid(4, 1350572398374823191),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6951239168528756540),
+            id: const obx_int.IdUid(1, 8697604881823230932),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 18496256816133114),
+            id: const obx_int.IdUid(2, 6641033333369419966),
             name: 'urlToImage',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3803675481748516483),
+            id: const obx_int.IdUid(3, 4950269403257679664),
             name: 'title',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 7518127641279759595),
+            id: const obx_int.IdUid(4, 1350572398374823191),
             name: 'description',
             type: 9,
             flags: 0)
@@ -60,16 +62,17 @@ final _entities = <obx_int.ModelEntity>[
 /// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
 /// the ObjectBox Flutter library to fix loading the native ObjectBox library
 /// on Android 6 and older.
-obx.Store openStore(
+Future<obx.Store> openStore(
     {String? directory,
     int? maxDBSizeInKB,
     int? maxDataSizeInKB,
     int? fileMode,
     int? maxReaders,
     bool queriesCaseSensitiveDefault = true,
-    String? macosApplicationGroup}) {
+    String? macosApplicationGroup}) async {
+  await loadObjectBoxLibraryAndroidCompat();
   return obx.Store(getObjectBoxModel(),
-      directory: directory,
+      directory: directory ?? (await defaultStoreDirectory()).path,
       maxDBSizeInKB: maxDBSizeInKB,
       maxDataSizeInKB: maxDataSizeInKB,
       fileMode: fileMode,
@@ -83,7 +86,7 @@ obx.Store openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 1053017952725093594),
+      lastEntityId: const obx_int.IdUid(1, 995459422726009675),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -105,29 +108,34 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (Article object, fb.Builder fbb) {
-          final urlToImageOffset = fbb.writeString(object.urlToImage);
-          final titleOffset = fbb.writeString(object.title);
-          final descriptionOffset = fbb.writeString(object.description);
+          final urlToImageOffset = object.urlToImage == null
+              ? null
+              : fbb.writeString(object.urlToImage!);
+          final titleOffset =
+              object.title == null ? null : fbb.writeString(object.title!);
+          final descriptionOffset = object.description == null
+              ? null
+              : fbb.writeString(object.description!);
           fbb.startTable(5);
-          fbb.addInt64(0, object.id);
+          fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, urlToImageOffset);
           fbb.addOffset(2, titleOffset);
           fbb.addOffset(3, descriptionOffset);
           fbb.finish(fbb.endTable());
-          return object.id;
+          return object.id ?? 0;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
           final idParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
           final urlToImageParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
+              .vTableGetNullable(buffer, rootOffset, 6);
           final titleParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
+              .vTableGetNullable(buffer, rootOffset, 8);
           final descriptionParam =
               const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 10, '');
+                  .vTableGetNullable(buffer, rootOffset, 10);
           final object = Article(
               id: idParam,
               urlToImage: urlToImageParam,

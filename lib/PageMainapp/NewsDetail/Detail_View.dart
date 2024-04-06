@@ -80,8 +80,14 @@ class _DetailNewsState extends State<DetailNews> {
                       const SizedBox(height: 10,),
                       ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          child: Image.network(teks['ImagePath'],
-                          )
+                          child: teks['ImagePath'] != null ? Image.network(
+                            teks['ImagePath'],
+                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return Image.asset(
+                                'assets/Icon/logo.png',
+                              ) as Widget;
+                            },
+                          ) : Container(),
                       ),
                       const SizedBox(height: 30,),
                       Align(

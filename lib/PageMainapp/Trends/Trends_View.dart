@@ -6,22 +6,21 @@ import '../../Layout/Style/Themeapp.dart';
 import '../../Layout/Widget/DialogStyles.dart';
 import '../../Layout/Widget/ListViewBuilderStyles.dart';
 import '../../Layout/Widget/SingleChildScrollStyles.dart';
-import '../../Services/BackendIntegration/NewsAPI/News_Model.dart';
 import '../../Services/BackendIntegration/NewsAPI/HTTP_Request.dart';
 import '../../Utilities/Components/Language/UserLanguages.dart';
 import '../NewsDetail/Detail_Model.dart';
 import '../NewsDetail/Detail_View.dart';
-import 'Dashboard_Controller.dart';
+import 'Trends_Controller.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+class Trends extends StatefulWidget {
+  const Trends({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<Trends> createState() => _TrendsState();
 }
 
-class _DashboardState extends State<Dashboard> {
-  final DashboardController dashboardController = DashboardController();
+class _TrendsState extends State<Trends> {
+  final TrendsController dashboardController = TrendsController();
 
   List<Map<String, String>>? idPageText;
 
@@ -86,7 +85,7 @@ class _DashboardState extends State<Dashboard> {
                       child: Opacity(
                         opacity: 0.5,
                         child: Image.asset(
-                          'assets/Image/bgWeather.jpg',
+                          'assets/Image/bgDetection2.png',
                           width: double.infinity,
                           fit: BoxFit.cover,
                         ),
@@ -118,7 +117,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 Center(
                                   child: Text(
-                                    idPageText?[0]['Title'] ?? 'No Text',
+                                    idPageText?[0]['Title2'] ?? 'No Text',
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: StyleApp.giganticTextStyle.copyWith(color: themeColors.textColorRegular, fontWeight: FontWeight.w900),
@@ -135,7 +134,7 @@ class _DashboardState extends State<Dashboard> {
               ),
               const SizedBox(height: 10,),
               LongListViewBuilderRetrofit(
-                futureSnapshot: getNewsListData,
+                futureSnapshot: getTrendsNewsListData,
                 physics: const NeverScrollableScrollPhysics(),
                 imagePathField: dashboardController.imagePathField,
                 titleField: dashboardController.titleField,
