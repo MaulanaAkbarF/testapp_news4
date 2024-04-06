@@ -4,3 +4,4 @@ class GetNewsModel {
   var jsonResponse;
   var articlesData;
 }
+
