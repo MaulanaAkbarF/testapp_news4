@@ -4,18 +4,16 @@ import 'package:testapp_news/Services/BackendIntegration/NewsAPI/API_Keys.dart';
 
 GetNewsModel getNewsModel = GetNewsModel();
 
-void fetchTrendingArticles() async {
+Future<List<dynamic>> fetchNews() async {
   final response = await http.get(
-    Uri.parse('https://newsapi.org/v2/everything?q=trending&apiKey=${getNewsModel.apiKey}'),
+    Uri.parse('https://newsapi.org/v2/top-headlines?country=${getNewsModel.countryId}&apiKey=${getNewsModel.apiKey}'),
   );
 
   if (response.statusCode == 200) {
-    var jsonResponse = jsonDecode(response.body);
-    var articles = jsonResponse['articles'];
-    for (var article in articles) {
-      print(article['title']);
-    }
+    getNewsModel.jsonResponse = jsonDecode(response.body);
+    getNewsModel.articlesData = getNewsModel.jsonResponse['articles'] as List;
+    return getNewsModel.articlesData.take(30).toList();
   } else {
-    print('Request failed with status: ${response.statusCode}.');
+    throw Exception('Failed to load articles');
   }
 }

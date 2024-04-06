@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../Style/Styleapp.dart';
@@ -547,3 +546,253 @@ class ArrowListViewBuilderFirestoreState extends State<ArrowListViewBuilderFires
   }
 }
 
+class LongListViewBuilderRetrofit extends StatefulWidget {
+  final Future<List<dynamic>> Function()? futureSnapshot;
+  final ScrollPhysics? physics;
+  final bool wantKeepAlive;
+  final String imagePathField;
+  final String titleField;
+  final TextStyle? titleFieldStyle;
+  final String descField;
+  final TextStyle? descFieldStyle;
+  final double containerSize;
+  final Color? containerColor;
+  final Color? borderColor;
+  final double containerOpacity;
+  final double borderOpacity;
+  final double borderRadiusCircular;
+  final double borderSize;
+  final void Function(Map<String, dynamic>, int)? onTap;
+
+  const LongListViewBuilderRetrofit({
+    Key? key,
+    required this.futureSnapshot,
+    this.physics,
+    this.wantKeepAlive = false,
+    this.imagePathField = 'assets/Icon/logo.png',
+    required this.titleField,
+    this.titleFieldStyle,
+    required this.descField,
+    this.descFieldStyle,
+    this.containerSize = 100,
+    this.containerColor,
+    this.borderColor,
+    this.containerOpacity = 1.0,
+    this.borderOpacity = 1.0,
+    this.borderRadiusCircular = 0,
+    this.borderSize = 1,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  LongListViewBuilderRetrofitState createState() => LongListViewBuilderRetrofitState();
+}
+
+class LongListViewBuilderRetrofitState extends State<LongListViewBuilderRetrofit> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  final List<AnimationController> _controllers = [];
+  final List<Animation<double>> _opacityAnimations = [];
+  final List<Animation<double>> _translationAnimations = [];
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.futureSnapshot!().then((articles) {
+      for (var i = 0; i < articles.length; i++) {
+        _controllers.add(AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 500),
+        ));
+
+        _opacityAnimations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: _controllers[i],
+            curve: Curves.easeInOut,
+          ),
+        ));
+
+        _translationAnimations.add(Tween<double>(begin: -50.0, end: 0.0).animate(
+          CurvedAnimation(
+            parent: _controllers[i],
+            curve: Curves.easeInOut,
+          ),
+        ));
+      }
+      setState(() {});  // Memperbarui state untuk memicu pembangunan ulang widget
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    ThemeColors themeColors = ThemeColors(context: context);
+
+    return FutureBuilder<List<dynamic>>(
+      future: widget.futureSnapshot!(),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.hasError) {
+          return const Text('There an error occurred');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const IntrinsicHeight(
+                    child: Padding(
+                      padding: EdgeInsets.all(18),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Loading Data'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return ListView.builder(
+          physics: widget.physics,
+          shrinkWrap: true,
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index) {
+            Map<String, dynamic> data = snapshot.data![index];
+            Future.delayed(Duration(milliseconds: index * 100), () {
+              _controllers[index].forward();
+            });
+
+            return GestureDetector(
+              onTap: () {
+                if (widget.onTap != null) {
+                  widget.onTap!(data, index);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: AnimatedBuilder(
+                  animation: _controllers[index],
+                  builder: (context, child) {
+                    return Opacity(
+                      opacity: _opacityAnimations[index].value,
+                      child: Transform.translate(
+                        offset: Offset(
+                            _translationAnimations[index].value, 0),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: widget.containerSize,
+                    decoration: BoxDecoration(
+                      color: widget.containerColor?.withOpacity(
+                          widget.containerOpacity) ??
+                          Colors.grey.shade700,
+                      borderRadius:
+                      BorderRadius.circular(widget.borderRadiusCircular),
+                      border: Border.all(
+                        color: widget.borderColor?.withOpacity(
+                            widget.borderOpacity) ??
+                            Colors.transparent,
+                        width: widget.borderSize,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(widget.borderRadiusCircular)
+                          ),
+                          child: data[widget.imagePathField] != null ? Image.network(
+                            data[widget.imagePathField],
+                            width: widget.containerSize,
+                            height: widget.containerSize,
+                            fit: BoxFit.fill,
+                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return Image.asset(
+                                'assets/Icon/logo.png',
+                                width: widget.containerSize,
+                                height: widget.containerSize,
+                                fit: BoxFit.fill,
+                              ) as Widget;
+                            },
+                          ) : Container(),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                IntrinsicHeight(
+                                  child: data[widget.titleField] != null
+                                      ? Text(
+                                    data[widget.titleField],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: widget.titleFieldStyle ?? StyleApp.largeTextStyle.copyWith(
+                                      color: themeColors.textColorRegular,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  )
+                                      : const SizedBox(),
+                                ),
+                                Expanded(
+                                  child: data[widget.descField] != null
+                                      ? Text(
+                                    data[widget.descField],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    style: widget.descFieldStyle ?? StyleApp.mediumTextStyle.copyWith(
+                                      color: themeColors.textColorRegular.withOpacity(0.7),
+                                    ),
+                                  )
+                                      : const SizedBox(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+}

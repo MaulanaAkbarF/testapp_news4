@@ -51,130 +51,6 @@ class _RegularDrawerState extends State<RegularDrawer> {
                 for (final teks in idPageText ?? [])
                   Column(
                     children: [
-                      const SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Image.asset(widget.imagePath, height: 30,),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: themeColors.containerColorGrey,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(teks['ServerLabel'],
-                                            style: StyleApp.mediumTextStyle.copyWith(
-                                              color: themeColors.textColorRegular,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          // child: serverStream.buildStreamBuilderServer(context),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(teks['MachineLabel'],
-                                            style: StyleApp.mediumTextStyle.copyWith(
-                                              color: themeColors.textColorRegular,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          // child: serverStream.buildStreamBuilderDeteksi(context),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(teks['ResponseLabel'],
-                                            style: StyleApp.mediumTextStyle.copyWith(
-                                              color: themeColors.textColorRegular,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(teks['Response'],
-                                            style: StyleApp.largeTextStyle.copyWith(color: themeColors.containerColorDarkPurple, fontWeight: FontWeight.w800),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 50,),
-                      InkWell(
-                        highlightColor: Colors.blue.withOpacity(0.6),
-                        onTap: () async {
-                          // await sprinklingController.setLamaPenyiramanToFirebase(0);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: themeColors.containerColorDarkPurple,
-                            borderRadius: BorderRadius.circular(10),
-
-                          ),
-                          child: Row(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Icon(Icons.timer),
-                              ),
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text(teks['StopSprinklingButton'],
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: StyleApp.semiLargeTextStyle.copyWith(
-                                      color: themeColors.textColorRegular,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 50,),
                       InkWell(
                         highlightColor: Colors.blue.withOpacity(0.6),
@@ -185,7 +61,7 @@ class _RegularDrawerState extends State<RegularDrawer> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: themeColors.containerColorDarkPurple,
+                              color: themeColors.containerColorDarkBlue,
                             ),
                           ),
                           child: Row(
@@ -221,7 +97,7 @@ class _RegularDrawerState extends State<RegularDrawer> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: themeColors.containerColorDarkPurple,
+                              color: themeColors.containerColorDarkBlue,
                             ),
                           ),
                           child: Row(

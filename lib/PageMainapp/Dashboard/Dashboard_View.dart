@@ -6,7 +6,10 @@ import '../../Layout/Style/Themeapp.dart';
 import '../../Layout/Widget/DialogStyles.dart';
 import '../../Layout/Widget/ListViewBuilderStyles.dart';
 import '../../Layout/Widget/SingleChildScrollStyles.dart';
+import '../../Services/BackendIntegration/NewsAPI/HTTP_Request.dart';
 import '../../Utilities/Components/Language/UserLanguages.dart';
+import '../NewsDetail/Detail_Model.dart';
+import '../NewsDetail/Detail_View.dart';
 import 'Dashboard_Controller.dart';
 
 class Dashboard extends StatefulWidget {
@@ -32,7 +35,6 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     loadPageText();
-    dashboardController.loadLanguage();
   }
 
   @override
@@ -130,45 +132,29 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20,),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  idPageText?[0]['Header'] ?? 'No Text',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: StyleApp.largeTextStyle.copyWith(color: themeColors.textColorRegular, fontWeight: FontWeight.w900),
-                ),
+              const SizedBox(height: 10,),
+              LongListViewBuilderRetrofit(
+                futureSnapshot: fetchNews,
+                physics: NeverScrollableScrollPhysics(),
+                imagePathField: dashboardController.imagePathField,
+                titleField: dashboardController.titleField,
+                descField: dashboardController.descField,
+                containerColor: themeColors.containerColorGrey,
+                borderRadiusCircular: 10,
+                onTap: (data, index) async {
+                  DetailNewsModel detailNewsModel = DetailNewsModel();
+                  detailNewsModel.articleDetail = data;
+
+                  if (detailNewsModel.articleDetail != null) {
+                    List<Map<String, String>> idPageText;
+                    Map<String, List<Map<String, String>>> pageTextMap = await LanguageSelected.detailNewsSelected('dmm', detailNewsModel).getIdPageTextAwait();
+                    idPageText = pageTextMap['newsDetailPageText'] ?? [];
+                    Get.to(() => DetailNews(idPageText: idPageText));
+                  } else {
+                    return;
+                  }
+                },
               ),
-              // LongListViewBuilderFirestore(
-              //   streamQuerySnapshot: dashboardController.diseaseFuture,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   titleField: dashboardController.value,
-              //   titleIndicatorField: dashboardController.indicator,
-              //   descField: dashboardController.condition,
-              //   descInfoField: dashboardController.conditioninfo,
-              //   containerColor: themeColors.containerColorLightPurple,
-              //   containerSize: 120,
-              //   borderRadiusCircular: 10,
-              //   onTap: (data, index) async {
-              //     // String documentId = data.id;
-              //     //
-              //     // DetailMonitoringModel detailMonitoringModel = DetailMonitoringModel();
-              //     // detailMonitoringModel.documentId = documentId;
-              //     //
-              //     // DetailMonitoringController detailDiseaseController = DetailMonitoringController(detailMonitoringModel);
-              //     // await detailDiseaseController.getDataFromFirestore();
-              //     //
-              //     // if (detailMonitoringModel.value != null) {
-              //     //   List<Map<String, String>> idPageText;
-              //     //   Map<String, List<Map<String, String>>> pageTextMap = await LanguageSelected.detailMonitoringSelected('dmm', detailMonitoringModel).getIdPageTextAwait();
-              //     //   idPageText = pageTextMap['monitoringDetailPageText'] ?? [];
-              //     //   Get.to(() => DetailMonitoring(idPageText: idPageText));
-              //     // } else {
-              //     //   return;
-              //     // }
-              //   },
-              // ),
             ],
           ),
         ),

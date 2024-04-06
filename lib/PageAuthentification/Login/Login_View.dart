@@ -177,34 +177,34 @@ class _LoginState extends State<Login> {
                                   text: 'Panjang Password kurang dari 6 karakter'
                               ),
                               const SizedBox(height: 12,),
-                              Row(
-                                children: [
-                                  // Align(
-                                  //   alignment: Alignment.topLeft,
-                                  //   child: GestureDetector(
-                                  //     onTap: (){
-                                  //       // Get.to(const InfoAccountPage());
-                                  //     },
-                                  //     child: const Text('Info Akun (Debug Mode)'),
-                                  //   ),
-                                  // ),
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        teks['ForgotPass'],
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: StyleApp.mediumTextStyle.copyWith(
-                                            color: themeColors.warningColor,
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //     // Align(
+                              //     //   alignment: Alignment.topLeft,
+                              //     //   child: GestureDetector(
+                              //     //     onTap: (){
+                              //     //       // Get.to(const InfoAccountPage());
+                              //     //     },
+                              //     //     child: const Text('Info Akun (Debug Mode)'),
+                              //     //   ),
+                              //     // ),
+                              //     // Expanded(
+                              //     //   child: Align(
+                              //     //     alignment: Alignment.topRight,
+                              //     //     child: Text(
+                              //     //       teks['ForgotPass'],
+                              //     //       overflow: TextOverflow.ellipsis,
+                              //     //       maxLines: 1,
+                              //     //       style: StyleApp.mediumTextStyle.copyWith(
+                              //     //           color: themeColors.warningColor,
+                              //     //           fontStyle: FontStyle.italic,
+                              //     //           fontWeight: FontWeight.bold
+                              //     //       ),
+                              //     //     ),
+                              //     //   ),
+                              //     // ),
+                              //   ],
+                              // ),
                               const SizedBox(height: 30),
                               AnimateProgressButton(
                                 labelButton: teks['ButtonLogin'],
@@ -254,19 +254,7 @@ class _LoginState extends State<Login> {
                                   if (_loginController.isLoadingLoginWithGoogle) {
                                     return true;
                                   }
-                                  _loginController.isLoadingLoginWithGoogle = true;
                                   UserCredential? userCredential = await _loginController.validateGoogleSignIn(context);
-                                  if (userCredential != null) {
-                                    DataUsers dataUsers = DataUsers();
-                                    String? displayName = userCredential.user!.displayName;
-                                    dataUsers.username = (displayName == null || displayName.isEmpty) ? 'Tamu' : displayName;
-                                    dataUsers.userAccess = 'admin';
-                                    Get.to(() => CustomBottomNavigationBar(dataUsers: dataUsers),
-                                      transition: Transition.circularReveal,
-                                      duration: const Duration(seconds: 1));
-                                  } else {
-                                    print('Gagal Login');
-                                  }
                                   _loginController.isLoadingLoginWithGoogle = false;
                                   return true;
                                 },

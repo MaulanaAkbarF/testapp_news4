@@ -1,0 +1,3 @@
+class DetailNewsModel {
+  var articleDetail;
+}

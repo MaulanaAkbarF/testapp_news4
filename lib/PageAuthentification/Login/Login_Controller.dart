@@ -63,7 +63,10 @@ class LoginController {
     UserCredential? userCredential = await googleSignInService.signInWithGoogle();
 
     if (userCredential != null) {
-      await moveToMainPage();
+      DataUsers dataUsers = DataUsers();
+      String? displayName = userCredential.user!.displayName;
+      dataUsers.username = (displayName == null || displayName.isEmpty) ? 'Tamu' : displayName;
+      await Get.off(() => CustomBottomNavigationBar(dataUsers: dataUsers), transition: Transition.topLevel, duration: const Duration(milliseconds: 2500));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

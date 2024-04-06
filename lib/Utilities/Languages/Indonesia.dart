@@ -1,3 +1,5 @@
+import '../../PageMainapp/NewsDetail/Detail_Model.dart';
+
 class Indonesia_UIText {
   // Utilities Text
   static List<Map<String, String>> DrawerPageText = [
@@ -14,9 +16,8 @@ class Indonesia_UIText {
   static List<Map<String, String>> BottomNavBarPageText = [
     {
       'GreetingLabel': 'Halo,',
-      'Page1Label': 'Beranda',
-      'Page2Label': 'Deteksi',
-      'Page3Label': 'Penyiraman',
+      'Page1Label': 'News',
+      'Page2Label': 'Trends',
     },
   ];
   static List<Map<String, String>> AllSettingMenuPageText = [
@@ -118,7 +119,7 @@ class Indonesia_UIText {
       'SeparationText': 'atau masuk dengan',
       'ButtonLogin': 'Masuk',
       'ButtonRegister': 'Daftar',
-      'ButtonGuest': 'Login dengan Google',
+      'ButtonGuest': 'Masuk dengan Google',
       'LoadingButtonLogin': 'Memproses',
       'LoadingButtonRegister': 'Memuat Halaman',
       'LoadingButtonGuest': 'Memuat',
@@ -184,7 +185,7 @@ class Indonesia_UIText {
     {
       'Header': 'INFORMASI KEBUN',
       'DateLabel': 'Rabu, 06 Februari 2024',
-      'Title': 'BERITA TERKINI',
+      'Title': 'TOP HEADLINES',
 
       'HeaderWarning1': 'Keluar dari Aplikasi?',
       'DescriptionWarning1': 'Tekan "Keluar" untuk menutup aplikasi',
@@ -194,4 +195,24 @@ class Indonesia_UIText {
       'LoadingAcceptedButton1': 'Memproses',
     },
   ];
+}
+
+class Indonesia_UIText_Await{
+  late final DetailNewsModel detailNewsModel;
+
+  Indonesia_UIText_Await.detailNews(this.detailNewsModel);
+
+  Future<List<Map<String, String>>> MonitoringDetailPageText() async {
+    return [
+      {
+        'BackButton': 'Kembali',
+        'TitleNews': detailNewsModel.articleDetail['title'] ?? 'Tidak ada data',
+        'AuthorNews': 'Penulis: ${detailNewsModel.articleDetail['author'] ?? 'Tidak ada data'}',
+        'DateNews': 'Diunggah: ${detailNewsModel.articleDetail['publishedAt'] ?? 'Tidak ada data'}',
+        'ImagePath': detailNewsModel.articleDetail['urlToImage'] ?? '',
+        'DescriptionNews': detailNewsModel.articleDetail['description'] ?? 'Tidak ada data',
+        'ContentNews': detailNewsModel.articleDetail['content'] ?? 'Tidak ada data',
+      },
+    ];
+  }
 }

@@ -7,7 +7,7 @@ import '../../Layout/Widget/TextStyles.dart';
 import '../../Utilities/Components/AllSettingsMenu/AllSettingsMenu_View.dart';
 import '../../Services/SharedPreferences/Data_Users.dart';
 import '../../Utilities/Components/Language/UserLanguages.dart';
-import '../Monitoring/Dashboard_View.dart';
+import '../Dashboard/Dashboard_View.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final DataUsers dataUsers;
@@ -110,12 +110,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          _buildBottomNavigationBarItem(Icons.monitor_heart_rounded, idPageText?[0]['Page1Label'] ?? ''),
-          _buildBottomNavigationBarItem(Icons.camera, idPageText?[0]['Page2Label'] ?? ''),
-          _buildBottomNavigationBarItem(Icons.water_drop, idPageText?[0]['Page3Label'] ?? ''),
+          _buildBottomNavigationBarItem(Icons.newspaper, idPageText?[0]['Page1Label'] ?? ''),
+          _buildBottomNavigationBarItem(Icons.trending_up_sharp, idPageText?[0]['Page2Label'] ?? ''),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple.shade100,
+        selectedItemColor: Colors.blue.shade100,
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         showUnselectedLabels: true,
@@ -150,8 +149,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   List<Widget> _getPages() {
     return [
       const Dashboard(),
-      // const Detection(),
-      // const Sprinkling(),
     ];
   }
 }

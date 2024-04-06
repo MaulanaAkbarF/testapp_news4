@@ -1,16 +1,13 @@
 import 'dart:developer' as dev;
-import '../../Languages/EnglishUS.dart';
+import '../../../PageMainapp/NewsDetail/Detail_Model.dart';
 import '../../Languages/Indonesia.dart';
-import '../../Languages/Japanese.dart';
 
 class LanguageSelected {
-  // final String pageModelData;
+  final String pageModelData;
   static String selectedLanguage = '';
-  // late final DetailMonitoringModel detailMonitoringModel;
-  // late final DetectionModel detectionModel;
+  late final DetailNewsModel detailNewsModel;
 
-  // LanguageSelected.detailMonitoringSelected(this.pageModelData, this.detailMonitoringModel);
-  // LanguageSelected.detailDetectionSelected(this.pageModelData, this.detectionModel);
+  LanguageSelected.detailNewsSelected(this.pageModelData, this.detailNewsModel);
 
   // Fungsi statis (String)
   // Fungsi dibawah ini hanya untuk kumpulan data String yang diakses secara statis
@@ -81,6 +78,37 @@ class LanguageSelected {
 
     return {
       'settingPreferencesPageText': settingPreferencesPageText ?? [],
+    };
+  }
+
+  // Fungsi non-statis (String)
+  // Fungsi dibawah ini hanya untuk kumpulan data String yang diakses secara Future/non-statis
+  // Penggunaan Future dapat memakan lebih banyak memori dan kinerja aplikasi daripada menggunakan Statis
+  Future<Map<String, List<Map<String, String>>>> getIdPageTextAwait() async {
+    List<Map<String, String>>? newsDetailPageText;
+
+    if (selectedLanguage == "id") {
+      if (pageModelData == 'dmm'){
+        newsDetailPageText = await Indonesia_UIText_Await.detailNews(detailNewsModel).MonitoringDetailPageText();
+      } else {
+        dev.log('Tidak dapat menemukan kode akses', error: 'Parah', level:3);
+      }
+    } else if (selectedLanguage == "en") {
+      if (pageModelData == 'dmm'){
+        // newsDetailPageText = await EnglishUS_UIText_Await.detailMonitoring(detailMonitoringModel).MonitoringDetailPageText();
+      } else {
+        dev.log('Tidak dapat menemukan kode akses', error: 'Parah', level:3);
+      }
+    } else if (selectedLanguage == "jp") {
+      if (pageModelData == 'dmm'){
+        // newsDetailPageText = await Japanese_UIText_Await.detailMonitoring(detailMonitoringModel).MonitoringDetailPageText();
+      } else {
+        dev.log('Tidak dapat menemukan kode akses', error: 'Parah', level:3);
+      }
+    } // Salin dan tambahkan else if dari bahasa lainnya
+
+    return {
+      'newsDetailPageText': newsDetailPageText ?? [],
     };
   }
 }
