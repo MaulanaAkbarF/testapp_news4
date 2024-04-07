@@ -600,7 +600,7 @@ class LongListViewBuilderRetrofitState extends State<LongListViewBuilderRetrofit
   void initState() {
     super.initState();
     widget.futureSnapshot!().then((articles) {
-      if (articles.isNotEmpty) { // Periksa apakah articles tidak kosong
+      if (articles.isNotEmpty) {
         for (var i = 0; i < articles.length; i++) {
           _controllers.add(AnimationController(
             vsync: this,
@@ -682,107 +682,117 @@ class LongListViewBuilderRetrofitState extends State<LongListViewBuilderRetrofit
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {
             Map<String, dynamic> data = snapshot.data![index];
-            Future.delayed(Duration(milliseconds: index * 100), () {
-              _controllers[index].forward();
-            });
+            if (index < _controllers.length) {
+              Future.delayed(Duration(milliseconds: index * 150), () {
+                _controllers[index].forward();
+              });
+            }
 
-            return GestureDetector(
-              onTap: () {
-                if (widget.onTap != null) {
-                  widget.onTap!(data, index);
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: AnimatedBuilder(
-                  animation: _controllers[index],
-                  builder: (context, child) {
-                    return Opacity(
-                      opacity: _opacityAnimations[index].value,
-                      child: Transform.translate(
-                        offset: Offset(
-                            _translationAnimations[index].value, 0),
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: Container(
-                    height: widget.containerSize,
-                    decoration: BoxDecoration(
-                      color: widget.containerColor?.withOpacity(
-                          widget.containerOpacity) ??
-                          Colors.grey.shade700,
-                      borderRadius:
-                      BorderRadius.circular(widget.borderRadiusCircular),
-                      border: Border.all(
-                        color: widget.borderColor?.withOpacity(
-                            widget.borderOpacity) ??
-                            Colors.transparent,
-                        width: widget.borderSize,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.horizontal(
-                              left: Radius.circular(widget.borderRadiusCircular)
-                          ),
-                          child: data[widget.imagePathField] != null ? Image.network(
-                            data[widget.imagePathField],
-                            width: widget.containerSize,
-                            height: widget.containerSize,
-                            fit: BoxFit.fill,
-                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                              return Image.asset(
-                                'assets/Icon/logo.png',
-                                width: widget.containerSize,
-                                height: widget.containerSize,
-                                fit: BoxFit.fill,
-                              ) as Widget;
-                            },
-                          ) : Container(),
+            if (index < _controllers.length) {
+              return GestureDetector(
+                onTap: () {
+                  if (widget.onTap != null) {
+                    widget.onTap!(data, index);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: AnimatedBuilder(
+                    animation: _controllers[index],
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _opacityAnimations[index].value,
+                        child: Transform.translate(
+                          offset: Offset(
+                              _translationAnimations[index].value, 0),
+                          child: child,
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                IntrinsicHeight(
-                                  child: data[widget.titleField] != null
-                                      ? Text(
-                                    data[widget.titleField],
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: widget.titleFieldStyle ?? StyleApp.largeTextStyle.copyWith(
-                                      color: themeColors.textColorRegular,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  )
-                                      : const SizedBox(),
-                                ),
-                                Expanded(
-                                  child: data[widget.descField] != null
-                                      ? Text(
-                                    data[widget.descField],
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: widget.descFieldStyle ?? StyleApp.mediumTextStyle.copyWith(
-                                      color: themeColors.textColorRegular.withOpacity(0.7),
-                                    ),
-                                  )
-                                      : const SizedBox(),
-                                ),
-                              ],
+                      );
+                    },
+                    child: Container(
+                      height: widget.containerSize,
+                      decoration: BoxDecoration(
+                        color: widget.containerColor?.withOpacity(
+                            widget.containerOpacity) ??
+                            Colors.grey.shade700,
+                        borderRadius:
+                        BorderRadius.circular(widget.borderRadiusCircular),
+                        border: Border.all(
+                          color: widget.borderColor?.withOpacity(
+                              widget.borderOpacity) ??
+                              Colors.transparent,
+                          width: widget.borderSize,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(
+                                    widget.borderRadiusCircular)
                             ),
+                            child: data[widget.imagePathField] != null ? Image
+                                .network(
+                              data[widget.imagePathField],
+                              width: widget.containerSize,
+                              height: widget.containerSize,
+                              fit: BoxFit.fill,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return Image.asset(
+                                  'assets/Icon/logo.png',
+                                  width: widget.containerSize,
+                                  height: widget.containerSize,
+                                  fit: BoxFit.fill,
+                                ) as Widget;
+                              },
+                            ) : Container(),
                           ),
-                        )
-                      ],
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IntrinsicHeight(
+                                    child: data[widget.titleField] != null
+                                        ? Text(
+                                      data[widget.titleField],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: widget.titleFieldStyle ??
+                                          StyleApp.largeTextStyle.copyWith(
+                                            color: themeColors.textColorRegular,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                    )
+                                        : const SizedBox(),
+                                  ),
+                                  Expanded(
+                                    child: data[widget.descField] != null
+                                        ? Text(
+                                      data[widget.descField],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      style: widget.descFieldStyle ??
+                                          StyleApp.mediumTextStyle.copyWith(
+                                            color: themeColors.textColorRegular
+                                                .withOpacity(0.7),
+                                          ),
+                                    )
+                                        : const SizedBox(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           },
         );
       },

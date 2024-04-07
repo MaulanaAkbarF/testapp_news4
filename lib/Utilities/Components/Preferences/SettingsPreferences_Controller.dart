@@ -1,3 +1,4 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Layout/Style/Styleapp.dart';
 import '../Language/UserLanguages.dart';
@@ -7,6 +8,7 @@ class SettingsPreferencesController {
   static String selectedFontFamily = '';
   static double selectedThemeId = 0;
   static String selectedStringTheme = '';
+  RxBool isChange = false.obs;
   List<Map<String, List<String>>>? idPageText;
 
   Future<void> loadPageText() async {

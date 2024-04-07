@@ -94,6 +94,26 @@ class _SettingsLanguageState extends State<SettingsLanguage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: AnimateFlagButton(
+                        labelButton: 'Arabic',
+                        labelButtonStyle: StyleApp.extraLargeTextStyle.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700
+                        ),
+                        image: Image.asset('assets/Icon/flagArabic.png', height: 20,),
+                        height: 50,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        borderColor: Colors.deepPurpleAccent,
+                        containerRadius: 100,
+                        onTap: () async {
+                          SettingsLanguageController.languageIdSelected = 'ar';
+                          languageSelectedId.value = 'Arabic';
+                          return true;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: AnimateFlagButton(
                         labelButton: 'English US',
                         labelButtonStyle: StyleApp.extraLargeTextStyle.copyWith(
                             color: Colors.white,

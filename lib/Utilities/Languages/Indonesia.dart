@@ -1,7 +1,9 @@
+import 'package:intl/intl.dart';
+
 import '../../PageMainapp/NewsDetail/Detail_Model.dart';
 
 class Indonesia_UIText {
-  // Utilities Text
+  // Default Maulana's UI Text
   static List<Map<String, String>> DrawerPageText = [
     {
       'BackToSplashScreenButton': 'Kembali ke Splash Screen',
@@ -11,8 +13,8 @@ class Indonesia_UIText {
   static List<Map<String, String>> BottomNavBarPageText = [
     {
       'GreetingLabel': 'Halo,',
-      'Page1Label': 'News',
-      'Page2Label': 'Trends',
+      'Page1Label': 'Berita',
+      'Page2Label': 'Trending',
     },
   ];
   static List<Map<String, String>> AllSettingMenuPageText = [
@@ -49,6 +51,8 @@ class Indonesia_UIText {
       'ButtonMenu2Desc': ['Restart untuk menerapkan perubahan'],
       'ButtonMenu3': ['Tema Aplikasi'],
       'ButtonMenu3Dropdown': ['Tema Terang', 'Tema Gelap', 'Tema Sistem', 'Tema Hitam'],
+      'LabelRestart': ['Perubahan ditetapkan!\nRestart Aplikasi untuk menerapkan'],
+      'ButtonRestart': ['Restart'],
     },
   ];
   static List<Map<String, String>> SettingAboutAppPageText = [
@@ -84,14 +88,15 @@ class Indonesia_UIText {
     },
   ];
 
-  // Main Application Text
+  // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  // MainApp UI Text
   static List<Map<String, String>> SplashScreenPageText = [
     {
       'ButtonLogin': 'MASUK',
       'LoadingButtonLogin': 'Memuat Halaman',
       'ButtonSettings': 'PENGATURAN',
       'LoadingButtonSettings': 'Memuat Halaman',
-      'VersionText': 'News4 versi 1.0',
+      'VersionText': 'News 4 versi 1.0',
       'CopyrightText': 'Hak Cipta © oleh Maulana Akbar Firdausya\nHak cipta dilindungi undang-undang',
 
       'HeaderWarning1': 'Keluar dari Aplikasi?',
@@ -107,7 +112,7 @@ class Indonesia_UIText {
       'Header': 'MASUK',
       'SubHeader': 'Kami senang melihatmu kembali\nMasuk dan mulai baca berita paling kekinian!',
       'Email': 'E-Mail/Whatsapp',
-      'EmailHint': 'mail@example.com/08xxxxxxxxxx',
+      'EmailHint': 'mail@example.com',
       'Password': 'Kata Sandi',
       'PasswordHint': 'Sandi minimal 6 karakter',
       'ForgotPass': 'Lupa Kata Sandi?',
@@ -146,7 +151,7 @@ class Indonesia_UIText {
       'NameWarning1': 'Nama tidak boleh kosong',
       'NameWarning2': 'Panjang Nama kurang dari 4 karakter',
       'Email': 'Masukkan E-Mail Anda',
-      'EmailHint': 'mail@example.com/081234567890',
+      'EmailHint': 'mail@example.com',
       'EmailWarning1': 'E-Mail tidak boleh kosong',
       'EmailWarning2': 'Panjang E-Mail kurang dari 4 karakter',
       'Password': 'Masukkan Kata Sandi Anda',
@@ -178,8 +183,8 @@ class Indonesia_UIText {
   ];
   static List<Map<String, String>> DashboardPageText = [
     {
-      'Title': 'TOP HEADLINES',
-      'Title2': 'GLOBAL TRENDS',
+      'Title': 'BERITA UTAMA',
+      'Title2': 'TREN GLOBAL',
 
       'HeaderWarning1': 'Keluar dari Aplikasi?',
       'DescriptionWarning1': 'Tekan "Keluar" untuk menutup aplikasi',
@@ -196,13 +201,20 @@ class Indonesia_UIText_Await{
 
   Indonesia_UIText_Await.detailNews(this.detailNewsModel);
 
-  Future<List<Map<String, String>>> MonitoringDetailPageText() async {
+  String formatDateTimeWithTimeZone(String dateTimeString) {
+    if (dateTimeString.isEmpty) return 'Tidak ada data';
+    final dateTime = DateTime.parse(dateTimeString);
+    final formatter = DateFormat('dd-MM-yyyy, HH:mm:ss', 'en_US');
+    return formatter.format(dateTime);
+  }
+
+  Future<List<Map<String, String>>> NewsDetailPageText() async {
     return [
       {
         'BackButton': 'Kembali',
         'TitleNews': detailNewsModel.articleDetail['title'] ?? 'Tidak ada data',
         'AuthorNews': 'Penulis: ${detailNewsModel.articleDetail['author'] ?? 'Tidak ada data'}',
-        'DateNews': 'Diunggah: ${detailNewsModel.articleDetail['publishedAt'] ?? 'Tidak ada data'}',
+        'DateNews': 'Diunggah: ${formatDateTimeWithTimeZone(detailNewsModel.articleDetail['publishedAt'] ?? '')}',
         'ImagePath': detailNewsModel.articleDetail['urlToImage'] ?? '',
         'DescriptionNews': detailNewsModel.articleDetail['description'] ?? 'Tidak ada data',
         'ContentNews': detailNewsModel.articleDetail['content'] ?? 'Tidak ada data',
