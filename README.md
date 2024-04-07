@@ -20,4 +20,4 @@ News 4 is a current news reading application developed using the Flutter Framewo
 
 ## Download Project
 
-- [App Release Download](https://drive.google.com/file/d/1BZk7HkamWgstF3itn0s7gSoduByOC3dZ/view?usp=sharing)
+- [App Release Download](https://drive.google.com/file/d/1I1ZJ7j4wX_V7pQNzEJobcGsqsVYXJ4nv/view?usp=sharing)
